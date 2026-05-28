@@ -4,8 +4,7 @@ crawler
 """
 
 
-
-def main():
+def main() -> None:
     """The starting point of the program"""
 
 
