@@ -16,6 +16,14 @@ class CrawState:
         """Obtain the starting point of the """
         return self._start
     
+    def still_unseen(self) -> bool:
+        """Determine if there's still content unseen"""
+        return len(self._unseen_url) > 0
+    
+    def get_unseen_url(self) -> str:
+        """Get the first unseen url in the list"""
+        return self._unseen_url[0]
+    
     def has_seen(self, url: str) -> bool:
         """Determine if a url has been seen before"""
         return url in self._seen_url
