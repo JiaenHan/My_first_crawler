@@ -5,6 +5,7 @@ This module contains the main crawler
 
 import urllib.request
 import urllib.error
+import url_parser
 from craw_state import CrawState
 
 
@@ -28,6 +29,6 @@ def crawler_runner(craw_state: CrawState):
     while craw_state.still_unseen():
         cur_url = craw_state.get_unseen_url()
         content = open_url(cur_url)
-        # TODO: parse the content and get urls
+        url_lst = url_parser.parsing_url(content, cur_url)
         # TODO: if not seen, add to unseen urls
         craw_state.change_to_seen(cur_url)
