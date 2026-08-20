@@ -4,32 +4,23 @@ This module contains the main crawler
 
 
 import time
-import ssl
-import certifi
-import urllib.request as rq
-import urllib.error as er
+import requests
 import url_parser
 from craw_state import CrawState
 
 
 def open_url(url: str) -> str:
     """Extract data from url"""
-    response = None
     try:
-        req = rq.Request(
+        response = requests.get(
             url,
-            headers={"User-Agent": "Mozilla/5.0"}
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=10
         )
-        context = ssl.create_default_context(cafile=certifi.where())
-        response = rq.urlopen(req, context=context)
-        content = response.read()
-        content = content.decode(encoding = 'utf-8')
-        response.close()
-        return content
-    except (er.HTTPError, er.URLError) as exc:
-        print(f"Cannot open {url}: {exc}")
-        if response:
-            response.close()
+        response.raise_for_status()
+        return response.text
+    except requests.exceptions.RequestException as exc:
+        print(f"Cannot find {url}: {exc}")
         return ""
 
 

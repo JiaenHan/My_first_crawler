@@ -13,7 +13,7 @@ class CrawState:
         self._unseen_url = [start]
 
     def get_start(self) -> str:
-        """Obtain the starting point of the """
+        """Obtain the starting point of the crawler"""
         return self._start
     
     def still_unseen(self) -> bool:
