@@ -50,9 +50,29 @@ class DBmanager:
 
     def add_new_url(self, url: str):
         """Adding new url into database"""
+        try:
+            self._cursor.execute(
+                """
+                INSERT OR IGNORE INTO urls (url)
+                VALUES (?)
+                """, (url, )
+            )
+            self._conn.commit()
+        except Exception as e:
+            self._conn.rollback()
+            print(e)
 
     def add_connection(self, fatherUrl: str, childUrl: str):
         """Adding connections between two urls"""
+        try:
+            self._cursor.execute(
+                """
+                """
+            )
+            self._conn.commit()
+        except Exception as e:
+            self._conn.rollback()
+            print(e)
 
     def close_db(self):
         """Closing dp connection"""
