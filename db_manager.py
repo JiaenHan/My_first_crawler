@@ -12,9 +12,30 @@ class DBmanager:
         """Create or Open the database"""
         self._conn = sqlite3.connect("crawler.db")
         self._cursor = self._conn.cursor()
+        self._cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS urls(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                url TEXT NOT NULL UNIQUE
+            ) STRICT;
+            """
+        )
+
+        self._cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS url_conn(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                parent_id INTEGER NOT NULL,
+                child_id INTEGER NOT NULL
+            ) STRICT;
+            """
+        )
+
+        self._conn.commit()
+        self.add_new_url(starting_url)
 
 
-    def _get_index(self, url: str):
+    def _get_index(self, url: str) -> int:
         """Get the index of a url"""
 
     def add_new_url(self, url: str):
@@ -25,6 +46,9 @@ class DBmanager:
 
     def close_db(self):
         """Closing dp connection"""
+        self._conn.commit()
+        self._cursor.close()
+        self._conn.close()
 
 __all__ = [
     DBmanager.__name__
