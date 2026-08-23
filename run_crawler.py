@@ -7,6 +7,7 @@ import time
 import requests
 import url_parser
 from craw_state import CrawState
+from db_manager import DBmanager
 
 
 def open_url(url: str) -> str:
@@ -24,7 +25,7 @@ def open_url(url: str) -> str:
         return ""
 
 
-def crawler_runner(craw_state: CrawState):
+def crawler_runner(craw_state: CrawState, db: DBmanager):
     """The main crawler that craw through urls"""
     while craw_state.still_unseen():
         cur_url = craw_state.get_unseen_url()
@@ -36,3 +37,5 @@ def crawler_runner(craw_state: CrawState):
         # TODO: if not seen, add to unseen urls
         craw_state.change_to_seen(cur_url)
         time.sleep(1)
+
+    #TODO: close connection
