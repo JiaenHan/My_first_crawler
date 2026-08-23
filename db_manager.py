@@ -60,7 +60,7 @@ class DBmanager:
             self._conn.commit()
         except Exception as e:
             self._conn.rollback()
-            print(e)
+            print(f"{e} at add_new_url")
 
     def add_connection(self, fatherUrl: str, childUrl: str):
         """Adding connections between two urls"""
@@ -70,14 +70,14 @@ class DBmanager:
             if not (parent_id is None or child_id is None):
                 self._cursor.execute(
                     """
-                    INSERT OR IGNORE INTO url_conn (parent_id, child_id),
+                    INSERT OR IGNORE INTO url_conn (parent_id, child_id)
                     VALUES (?, ?);
                     """, (parent_id, child_id)
                 )
             self._conn.commit()
         except Exception as e:
             self._conn.rollback()
-            print(e)
+            print(f"{e} at add_connection")
 
     def close_db(self):
         """Closing dp connection"""
