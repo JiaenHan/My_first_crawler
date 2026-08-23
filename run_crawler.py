@@ -27,15 +27,19 @@ def open_url(url: str) -> str:
 
 def crawler_runner(craw_state: CrawState, db: DBmanager):
     """The main crawler that craw through urls"""
-    while craw_state.still_unseen():
-        cur_url = craw_state.get_unseen_url()
-        content = open_url(cur_url)
-        url_lst = url_parser.parsing_url(content, cur_url)
-        # testing
-        print("*****")
-        print(url_lst)
-        # TODO: if not seen, add to unseen urls
-        craw_state.change_to_seen(cur_url)
-        time.sleep(1)
+    try:
+        while craw_state.still_has_unseen():
+            cur_url = craw_state.get_unseen_url()
+            content = open_url(cur_url)
+            url_lst = url_parser.parsing_url(content, cur_url)
 
-    #TODO: close connection
+            for new_url in url_lst:
+                if not craw_state.has_seen(new_url):
+                    craw_state.add_to_unseen(new_url)
+                    db.add_new_url(new_url)
+                    db.add_connection(cur_url, new_url)
+
+            craw_state.change_to_seen(cur_url)
+            time.sleep(1)
+    finally:
+        db.close_db()

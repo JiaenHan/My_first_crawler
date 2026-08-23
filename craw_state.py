@@ -16,7 +16,7 @@ class CrawState:
         """Obtain the starting point of the crawler"""
         return self._start
     
-    def still_unseen(self) -> bool:
+    def still_has_unseen(self) -> bool:
         """Determine if there's still content unseen"""
         return len(self._unseen_url) > 0
     
