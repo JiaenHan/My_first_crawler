@@ -40,7 +40,7 @@ class DBmanager:
             """
             SELECT id
             FROM urls
-            WHERE url = ?
+            WHERE url = ?;
             """, (url, )
         )
         result = self._cursor.fetchone()
@@ -54,7 +54,7 @@ class DBmanager:
             self._cursor.execute(
                 """
                 INSERT OR IGNORE INTO urls (url)
-                VALUES (?)
+                VALUES (?);
                 """, (url, )
             )
             self._conn.commit()
@@ -65,10 +65,15 @@ class DBmanager:
     def add_connection(self, fatherUrl: str, childUrl: str):
         """Adding connections between two urls"""
         try:
-            self._cursor.execute(
-                """
-                """
-            )
+            parent_id = self._get_index(fatherUrl)
+            child_id = self._get_index(childUrl)
+            if not (parent_id is None or child_id is None):
+                self._cursor.execute(
+                    """
+                    INSERT OR IGNORE INTO url_conn (parent_id, child_id),
+                    VALUES (?, ?);
+                    """, (parent_id, child_id)
+                )
             self._conn.commit()
         except Exception as e:
             self._conn.rollback()
