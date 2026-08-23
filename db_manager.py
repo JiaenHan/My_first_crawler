@@ -34,9 +34,19 @@ class DBmanager:
         self._conn.commit()
         self.add_new_url(starting_url)
 
-
     def _get_index(self, url: str) -> int:
         """Get the index of a url"""
+        self._cursor.execute(
+            """
+            SELECT id
+            FROM urls
+            WHERE url = ?
+            """, (url, )
+        )
+        result = self._cursor.fetchone()
+        if result is None:
+            return None
+        return result[0]
 
     def add_new_url(self, url: str):
         """Adding new url into database"""
