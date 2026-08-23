@@ -10,7 +10,9 @@ import run_crawler
 
 def main() -> None:
     """The starting point of the program"""
-    cur_state = CrawState("https://ics.uci.edu")
+    starting_url = "https://ics.uci.edu"
+    cur_state = CrawState(starting_url)
+    #TODO: open db
     run_crawler.crawler_runner(cur_state)
 
 
