@@ -26,7 +26,8 @@ class DBmanager:
             CREATE TABLE IF NOT EXISTS url_conn(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 parent_id INTEGER NOT NULL,
-                child_id INTEGER NOT NULL
+                child_id INTEGER NOT NULL,
+                UNIQUE (parent_id, child_id)
             ) STRICT;
             """
         )
