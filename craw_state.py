@@ -8,6 +8,7 @@ class CrawState:
     """Abstract the state of the crawler"""
     def __init__(self, start: str):
         """Initialize a CrawState"""
+        #TODO: change into set
         self._start = start
         self._seen_url = []
         self._unseen_url = [start]
@@ -30,7 +31,7 @@ class CrawState:
     
     def add_to_unseen(self, url: str) -> None:
         """Adding new url to unseen"""
-        if not self.has_seen(url):
+        if not self.has_seen(url) and url not in self._unseen_url:
             self._unseen_url.append(url)
 
     def change_to_seen(self, url: str) -> None:

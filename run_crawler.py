@@ -29,6 +29,7 @@ def crawler_runner(craw_state: CrawState, db: DBmanager):
     """The main crawler that craw through urls"""
     try:
         while craw_state.still_has_unseen():
+            print(f"Nums left: {len(craw_state._unseen_url)}")
             cur_url = craw_state.get_unseen_url()
             content = open_url(cur_url)
             url_lst = url_parser.parsing_url(content, cur_url)
