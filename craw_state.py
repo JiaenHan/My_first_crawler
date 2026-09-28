@@ -38,17 +38,10 @@ class CrawState:
     
     def add_to_unseen(self, url: str) -> None:
         """Adding new url to unseen"""
-        if not self.has_seen(url) and url in self._unseen_url:
+        print(f"Nums left: {len(self._unseen_url)}")
+        if not self.has_seen(url) and url not in self._unseen_url:
             self._unseen_url.add(url)
             self._wait_queue.appendleft(url)
-            
-    '''
-    def change_to_seen(self, url: str) -> None:
-        """Move an url from unseen to seen"""
-        if not self.has_seen(url) and url in self._unseen_url:
-            self._unseen_url.remove(url)
-            self._seen_url.append(url)
-    '''
 
 
 __all__ = [
